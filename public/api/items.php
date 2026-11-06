@@ -13,11 +13,12 @@ requireBearerToken();
 $allItems = array_map(static function (array $item): array {
     return [
         'id' => $item['id'],
+        'author' => $item['author'],
         'title' => $item['title'],
-        'subtitle' => $item['subtitle'],
-        'category' => $item['category'],
-        'rating' => $item['rating'],
+        'description' => $item['description'],
         'image' => $item['image'],
+        'reading_time_minutes' => $item['reading_time_minutes'],
+        'reader_count' => $item['reader_count'],
     ];
 }, items());
 

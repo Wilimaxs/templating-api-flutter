@@ -108,7 +108,9 @@ Token dan field user bisa disimpan ke SharedPreferences, lalu token dipakai pada
 
 ### 2. Daftar data
 
-`GET /api/items.php?page=1` dengan header Bearer token menghasilkan daftar object ringkas dan metadata pagination. `page` dimulai dari 1, sedangkan `per_page` ditetapkan tetap 20 item per halaman. Total data contoh adalah 39 item, sehingga ada dua halaman: halaman pertama berisi 20 item dan halaman kedua 19 item. Setiap item punya `id` untuk meminta detail dan `image` untuk widget gambar Flutter.
+`GET /api/items.php?page=1` dengan header Bearer token menghasilkan daftar kisah mitologi dan metadata pagination. `page` dimulai dari 1, sedangkan `per_page` ditetapkan tetap 20 item per halaman. Total data contoh adalah 39 item, sehingga ada dua halaman: halaman pertama berisi 20 item dan halaman kedua 19 item. Setiap item memiliki `id`, `author`, `title`, `description`, `image`, `reading_time_minutes`, dan `reader_count`.
+
+`reading_time_minutes` berupa angka menit, sedangkan `reader_count` berupa angka pembaca. Flutter dapat memformat angka pembaca menjadi tampilan ringkas seperti `12,8 rb`.
 
 Contoh bentuk `data`:
 
@@ -117,11 +119,12 @@ Contoh bentuk `data`:
   "items": [
     {
       "id": 1,
-      "title": "Pantai Senja",
-      "subtitle": "Pemandangan sore yang tenang",
-      "category": "Wisata",
-      "rating": 4.8,
-      "image": "https://picsum.photos/id/1018/900/600"
+      "author": "Alya Prameswari",
+      "title": "Persephone dan Biji Delima",
+      "description": "Kisah tentang Persephone, musim yang berubah, dan kesepakatan yang menghubungkan dunia manusia dengan dunia bawah.",
+      "image": "https://picsum.photos/id/1018/900/600",
+      "reading_time_minutes": 7,
+      "reader_count": 12800
     }
   ],
   "pagination": {
@@ -137,9 +140,9 @@ Gunakan `page=2` untuk mengambil halaman berikutnya. Parameter `page` yang bukan
 
 ### 3. Detail object
 
-`GET /api/item.php?id=1` dengan header Bearer token menghasilkan satu object penuh, termasuk `description` dan `image`. Ganti `id` dengan ID dari daftar. ID yang tidak dikenal menghasilkan HTTP 404 dengan `data: null`.
+`GET /api/item.php?id=1` dengan header Bearer token menghasilkan satu object lengkap dengan penulis, judul, deskripsi, gambar, estimasi menit baca, dan jumlah pembaca. Ganti `id` dengan ID dari daftar. ID yang tidak dikenal menghasilkan HTTP 404 dengan `data: null`.
 
-Item ID `2` sengaja memakai URL gambar pada domain `.invalid`, sehingga pengambilan gambar gagal untuk menguji error state gambar di Flutter. Field `image` tetap berupa string URL, bukan `null`.
+Item ID `2` (kisah Fenrir) sengaja memakai URL gambar pada domain `.invalid`, sehingga pengambilan gambar gagal untuk menguji error state gambar di Flutter. Field `image` tetap berupa string URL, bukan `null`.
 
 Item ID `4` memakai gambar lokal. Letakkan file gambar kamu di `public/images/developer.webp`. API membentuk URL gambar dari host request, misalnya `http://10.0.2.2:8000/images/developer.webp` jika request datang dari Android Emulator melalui `10.0.2.2`.
 
